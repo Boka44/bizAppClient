@@ -16,25 +16,25 @@ export class AnonymousGuard implements CanActivate {
     return this.checkLogin();
   }
 
-  checkLogin(): boolean {
-  		if(this.userService.isLoggedIn()) {
-  			this.router.navigate(['dashboard']);
-  			return false;
-  		} else {
-  			this.router.navigate(['']);
-  			return true;
-  		}
-  }
-
-  // checkLogin(): Promise<boolean> {
-  //   return new Promise((resolve, reject) => {
-  //     this.userService.isLoggedIn().then(() => {
-  //       this.router.navigate(['dashboard']);
-  //       reject(false);
-  //     }).catch(() => {
-  //       resolve(true);
-  //     });
-  //   });
+  // checkLogin(): boolean {
+  // 		if(this.userService.isLoggedIn()) {
+  // 			this.router.navigate(['dashboard']);
+  // 			return false;
+  // 		} else {
+  // 			this.router.navigate(['']);
+  // 			return true;
+  // 		}
   // }
+
+  checkLogin(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.userService.isLoggedIn().then(() => {
+        this.router.navigate(['dashboard']);
+        reject(false);
+      }).catch(() => {
+        resolve(true);
+      });
+    });
+  }
 
 }

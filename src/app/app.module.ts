@@ -9,23 +9,22 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { HttpClientModule } from '@angular/common/http';
 import { AnonymousGuard } from './anonymous.guard';
 import { AuthGuard } from './auth.guard';
+import { AppRoutingModule } from './app.routing.module';
+import { AuthHttp, AuthConfig } from 'angular2-jwt';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
 }
 
-const appRoutes: Routes = [
-    {
-        path: '',
-        component: LoginComponent,
-        canActivate: [AnonymousGuard]
-    },
-    {
-        path: 'dashboard',
-        component: DashboardComponent,
-        canActivate: [AuthGuard]
-    }
-];
+export function getAuthHttp(http: Http) {
+  return new AuthHttp(new AuthConfig({
+    headerName: 'x-auth-token',
+    noTokenScheme: true,
+    noJwtError: true,
+    globalHeaders: [{'Accept': 'application/json'}],
+    tokenGetter: (() => localStorage.getItem('id_token')),
+  }), http);
+}
 
 
 @NgModule({
@@ -35,10 +34,7 @@ const appRoutes: Routes = [
     DashboardComponent
   ],
   imports: [
-    RouterModule.forRoot(
-      appRoutes,
-      { enableTracing: true } // <-- debugging purposes only
-    ),
+    AppRoutingModule,
     BrowserModule,
     HttpClientModule,
     JwtModule.forRoot({
@@ -49,8 +45,12 @@ const appRoutes: Routes = [
     })
   ],
   providers: [
-    AuthGuard,
-    AnonymousGuard
+    UserService,
+    {
+      provide: AuthHttp,
+      useFactory: getAuthHttp,
+      deps: [Http]
+    }
   ],
   bootstrap: [AppComponent]
 })

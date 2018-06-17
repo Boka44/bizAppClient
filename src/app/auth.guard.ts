@@ -16,24 +16,24 @@ export class AuthGuard implements CanActivate {
     return this.checkLogin();
   }
 
-  checkLogin(): boolean {
-		if(this.userService.isLoggedIn()) {
-			this.router.navigate(['dashboard']);
-			return true;
-		} else {
-			this.router.navigate(['']);
-			return false;
-		}
-  }
-  // checkLogin(): Promise<boolean> {
-  // 	return new Promise((resolve, reject) => {
-  // 		this.userService.isLoggedIn().then(() => {
-  // 			resolve(true);
-  // 		}).catch(() => {
-  // 			this.router.navigate(['']);
-  // 			reject(false);
-  // 		})
-  // 	})
+  // checkLogin(): boolean {
+		// if(this.userService.isLoggedIn()) {
+		// 	this.router.navigate(['dashboard']);
+		// 	return true;
+		// } else {
+		// 	this.router.navigate(['']);
+		// 	return false;
+		// }
   // }
+  checkLogin(): Promise<boolean> {
+  	return new Promise((resolve, reject) => {
+  		this.userService.isLoggedIn().then(() => {
+  			resolve(true);
+  		}).catch(() => {
+  			this.router.navigate(['']);
+  			reject(false);
+  		})
+  	})
+  }
 }
 
