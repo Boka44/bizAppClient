@@ -17,18 +17,13 @@ export class AnonymousGuard implements CanActivate {
   }
 
   checkLogin(): boolean {
-  	if(localStorage.length === 1) {
   		if(this.userService.isLoggedIn()) {
   			this.router.navigate(['dashboard']);
-  			return true;
+  			return false;
   		} else {
   			this.router.navigate(['']);
-  			return false;
+  			return true;
   		}
-  	} else {
-  		this.router.navigate(['']);
-  		return false;
-  	} 
   }
 
   // checkLogin(): Promise<boolean> {

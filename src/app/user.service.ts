@@ -18,30 +18,25 @@ export class UserService {
   	});
   }
 
-   fbLogin() {
-    return new Promise((resolve, reject) => {
-      FB.login(result => {
-      	console.log(result.authResponse.accessToken);
-        if (result.authResponse) {
-          return this.http.get(`http://localhost:3000/authFacebook/?access_token=${result.authResponse.accessToken}`, {headers: new HttpHeaders()
-            .set('Content-Type', 'application/json'), observe: 'response'})
-              .subscribe((response) => {
-              	console.log(response);
-                const token = response.headers.get('x-auth-token');
-                console.log(token)
-                if (token) {
-                  localStorage.setItem('id_token', token);
-                  console.log(localStorage)
-                }
-               
-              })
-             
-        } else {
-       
-        }
-      }, {scope: 'public_profile,email'})
-    });
-    // .then
+  fbLogin() {    
+	  FB.login(result => {
+	  	console.log(result.authResponse.accessToken);
+	    if (result.authResponse) {
+	      return this.http.get(`http://localhost:3000/authFacebook/?access_token=${result.authResponse.accessToken}`, {headers: new HttpHeaders()
+	        .set('Content-Type', 'application/json'), observe: 'response'})
+	          .subscribe((response) => {
+	          	console.log(response);
+	            const token = response.headers.get('x-auth-token');
+	            console.log(token)
+	            if (token) {
+	              localStorage.setItem('id_token', token);
+	              console.log(localStorage)
+	            }
+	          })
+	    } else {
+	   		return false;
+	    }
+	  }, {scope: 'public_profile,email'})
   }
 
   logout() {
@@ -51,17 +46,19 @@ export class UserService {
   }
 
   isLoggedIn() {
-    return new Promise((resolve, reject) => {
-      this.getCurrentUser().then(user => resolve(true)).catch(() => reject(false));
-    });
+  	if(localStorage.id_token){
+      return true;
+  	} else {
+  		return false;
+  	}
   }
 
   getCurrentUser() {
-    return new Promise((resolve, reject) => {
       this.http.get(`http://localhost:3000/authFacebook/?access_token=${localStorage.token}`, {headers: new HttpHeaders()
             .set('Content-Type', 'application/json'), observe: 'response'}).subscribe((response) => {
+            	
       }); 
-    });
+    
   }
 
 }

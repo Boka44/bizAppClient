@@ -17,18 +17,13 @@ export class AuthGuard implements CanActivate {
   }
 
   checkLogin(): boolean {
-  	if(localStorage.length === 1) {
-  		if(this.userService.isLoggedIn()) {
-  			this.router.navigate(['dashboard']);
-  			return true;
-  		} else {
-  			this.router.navigate(['']);
-  			return false;
-  		}
-  	} else {
-  		this.router.navigate(['']);
-  		return false;
-  	} 
+		if(this.userService.isLoggedIn()) {
+			this.router.navigate(['dashboard']);
+			return true;
+		} else {
+			this.router.navigate(['']);
+			return false;
+		}
   }
   // checkLogin(): Promise<boolean> {
   // 	return new Promise((resolve, reject) => {
