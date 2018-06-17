@@ -10,20 +10,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { AnonymousGuard } from './anonymous.guard';
 import { AuthGuard } from './auth.guard';
 import { AppRoutingModule } from './app.routing.module';
-import { AuthHttp, AuthConfig } from 'angular2-jwt';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
-}
-
-export function getAuthHttp(http: Http) {
-  return new AuthHttp(new AuthConfig({
-    headerName: 'x-auth-token',
-    noTokenScheme: true,
-    noJwtError: true,
-    globalHeaders: [{'Accept': 'application/json'}],
-    tokenGetter: (() => localStorage.getItem('id_token')),
-  }), http);
 }
 
 
@@ -40,17 +29,14 @@ export function getAuthHttp(http: Http) {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: ['localhost:3000']
+        whitelistedDomains: ['localhost:3000'],
+        throwNoTokenError: true
       }
     })
   ],
   providers: [
-    UserService,
-    {
-      provide: AuthHttp,
-      useFactory: getAuthHttp,
-      deps: [Http]
-    }
+    AuthGuard,
+    AnonymousGuard
   ],
   bootstrap: [AppComponent]
 })

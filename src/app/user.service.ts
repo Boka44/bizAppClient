@@ -35,7 +35,7 @@ export class UserService {
 		              resolve(response);
 		            }
 		          }) 
-		           reject();
+		           
 		    } else {
 		   		reject();
 		    }
@@ -57,8 +57,8 @@ export class UserService {
 
   getCurrentUser() {
     return new Promise((resolve, reject) => {
-      return this.http.get(`http://localhost:3000/authCheck`).toPromise().then(response => {
-        resolve(response.json());
+      return this.http.get(`http://localhost:3000/authCheck/test`).toPromise().then(response => {
+        resolve(response);
       }).catch(() => reject());
     });
   }
