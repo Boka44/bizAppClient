@@ -12,7 +12,7 @@ import { AuthGuard } from './auth.guard';
 import { AppRoutingModule } from './app.routing.module';
 
 export function tokenGetter() {
-  return localStorage.getItem('access_token');
+  return localStorage.getItem('id_token');
 }
 
 
@@ -30,7 +30,7 @@ export function tokenGetter() {
       config: {
         tokenGetter: tokenGetter,
         whitelistedDomains: ['localhost:3000'],
-        throwNoTokenError: true
+        authScheme: ''
       }
     })
   ],

@@ -57,7 +57,7 @@ export class UserService {
 
   getCurrentUser() {
     return new Promise((resolve, reject) => {
-      return this.http.get(`http://localhost:3000/authCheck/test`).toPromise().then(response => {
+      return this.http.get(`http://localhost:3000/authCheck`).toPromise().then(response => {
         resolve(response);
       }).catch(() => reject());
     });
