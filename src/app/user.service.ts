@@ -18,6 +18,9 @@ export class UserService {
   	});
   }
 
+  favoritesArray = [];
+  stocksArray = [];
+
    fbLogin() {    
    	return new Promise((resolve, reject) => {
 		  FB.login(result => {
@@ -28,10 +31,10 @@ export class UserService {
 		          .subscribe((response) => {
 		          	console.log(response);
 		            const token = response.headers.get('x-auth-token');
-		            console.log(token)
 		            if (token) {
 		              localStorage.setItem('id_token', token);
 		              console.log(localStorage)
+		              this.favoritesArray = response.body['favorites'];
 		              resolve(response);
 		            }
 		          }) 
@@ -61,6 +64,39 @@ export class UserService {
         resolve(response);
       }).catch(() => reject());
     });
+  }
+
+  updateUser(array) {
+  	return this.http.post(`http://localhost:3000/update`, {"favorites": array})
+  		.subscribe((response) => {
+  			console.log(response);
+  			this.favoritesArray = array;
+  		})
+  }
+
+  getUser() {
+  	return new Promise((resolve, reject) => {
+	  	return this.http.get(`http://localhost:3000/getUser`)
+	  		.subscribe((response) => {
+	  			this.favoritesArray = response["favorites"];
+	  			resolve();
+	  		}) 
+	  })
+  }
+
+  updateFavorites() {
+  	return this.favoritesArray;
+  }
+
+  getStocks() {
+  	return new Promise((resolve, reject) => {
+  		return this.http.get(`http://localhost:3000/finance`)
+  			.subscribe((response) => {
+  				this.stocksArray = response['data'];
+  				console.log(this.stocksArray)
+  				resolve();
+  			})
+  	})
   }
 
 }
