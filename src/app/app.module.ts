@@ -11,6 +11,8 @@ import { AnonymousGuard } from './anonymous.guard';
 import { AuthGuard } from './auth.guard';
 import { AppRoutingModule } from './app.routing.module';
 import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider } from "angular-6-social-login";
+import { FilterPipe } from './filter.pipe';
+import { FormsModule }   from '@angular/forms';
 
 export function tokenGetter() {
   return localStorage.getItem('id_token');
@@ -28,13 +30,16 @@ export function getAuthServiceConfigs() {
 }
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    DashboardComponent
+    DashboardComponent,
+    FilterPipe
   ],
   imports: [
+    FormsModule,
     AppRoutingModule,
     BrowserModule,
     HttpClientModule,

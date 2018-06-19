@@ -14,7 +14,20 @@ body{
 .select-box {
 	background-color: rgba(45,45,45,1);
 	height: 500px;
-	padding-top: 24px;
+	padding-top: 30px;
+	padding-left: 0px !important;
+	padding-right: 0px !important;
+}
+
+.select-box div {
+	height: 30px;
+	width: 100%;
+
+}
+
+.select-box div:hover {
+	background-color: rgba(70,70,70,1);
+	cursor: pointer;
 }
 
 .search-box {
@@ -22,6 +35,13 @@ body{
 	padding: 0px !important;
 	margin: 0px !important;
 }
+
+.stocks-container  {
+	max-height: 460px;
+	overflow-y: scroll;
+}
+
+
 
 .btn {
 	border-radius: 0px !important;
