@@ -21,7 +21,7 @@ export class UserService {
   favoritesArray = [];
   stocksArray = [];
 
-   fbLogin() {    
+  fbLogin() {    
    	return new Promise((resolve, reject) => {
 		  FB.login(result => {
 		  	console.log(result.authResponse.accessToken);
@@ -44,6 +44,27 @@ export class UserService {
 		    }
 		  })
 		});
+  }
+
+  googleLogin(userData) {
+  	return new Promise((resolve, reject) => {
+  		if(userData.token) {
+  			return this.http.post(`http://localhost:3000/authGoogle`, {'id_token': userData.idToken, 'name': userData.name , headers: new HttpHeaders()
+		        .set('Content-Type', 'application/json')}, {observe: 'response'})
+  						.subscribe((response) => {
+  							console.log(response)
+  							const token = response.headers.get('x-auth-token');
+		            if (token) {
+		              localStorage.setItem('id_token', token);
+		              console.log(localStorage)
+		              this.favoritesArray = response.body['favorites'];
+		              resolve(response);
+		            }
+  						})
+  		} else {
+  			reject();
+  		}
+  	});
   }
 
   logout() {

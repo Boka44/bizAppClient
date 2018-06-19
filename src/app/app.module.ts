@@ -10,9 +10,21 @@ import { HttpClientModule } from '@angular/common/http';
 import { AnonymousGuard } from './anonymous.guard';
 import { AuthGuard } from './auth.guard';
 import { AppRoutingModule } from './app.routing.module';
+import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider } from "angular-6-social-login";
 
 export function tokenGetter() {
   return localStorage.getItem('id_token');
+}
+export function getAuthServiceConfigs() {
+  let config = new AuthServiceConfig(
+      [
+        {
+          id: GoogleLoginProvider.PROVIDER_ID,
+          provider: new GoogleLoginProvider("67283599540-mrctmvvfuesruronp0p4vaahofueg6td")
+        }
+      ]
+  );
+  return config;
 }
 
 
@@ -26,6 +38,7 @@ export function tokenGetter() {
     AppRoutingModule,
     BrowserModule,
     HttpClientModule,
+    SocialLoginModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
@@ -35,6 +48,10 @@ export function tokenGetter() {
     })
   ],
   providers: [
+  {
+    provide: AuthServiceConfig,
+    useFactory: getAuthServiceConfigs
+  },
     AuthGuard,
     AnonymousGuard
   ],
