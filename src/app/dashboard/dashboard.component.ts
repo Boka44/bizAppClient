@@ -17,13 +17,22 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
   	this.userService.getCurrentUser().then(profile => this.currentUser = profile)
   		.catch(() => this.currentUser = {});
-		this.userService.getStocks().then(() => {
-			this.array = this.userService.stocksArray;
-		})
 		this.userService.getUser().then(() => {
-			this.favorites = this.userService.updateFavorites();
-  		console.log(this.favorites)
-  		this.checkFav();
+			return new Promise((resolve,reject) => {
+				this.favorites = this.userService.updateFavorites()
+				this.checkFav();
+				resolve();
+			}).then(() => {
+				return new Promise((resolve,reject) => {
+					this.userService.getStocks().then(() => {
+						this.array = this.userService.stocksArray;
+			  		this.checkFav();
+			  		resolve()
+					})
+				}).then(() => {
+					this.updateFavoritesPrice()	
+				})
+			})
 		})
   		
   }
@@ -87,46 +96,22 @@ export class DashboardComponent implements OnInit {
   			j.isFav = false;
   		}
   	})
-  	// this.favorites = this.currentUser.favorites;
+  }
 
+  updateFavoritesPrice() {
+  	this.favorites.forEach((i) => {
+  		let index = this.array.findIndex((j) => {
+  		 	return i.identifier == j.identifier;
+  		})
+  		console.log(i)
+  		console.log(index)
+  		i.value = this.array[index].value;
+  	})
   }
 
   showAll = true;
   showFavorites = false;
 
   favorites = [];
-  test = 'Test is complete!';
-  // array = [
-  // 	{
-  // 		id: 1,
-  // 		test: 'stock 1',
-  // 		num: 3.8,
-  // 		isFav: false
-  // 	},
-  // 	{
-  // 		id: 2,
-  // 		test: 'stock 2',
-  // 		num: 45.87,
-  // 		isFav: false
-  // 	},
-  // 	{
-  // 		id: 3,
-  // 		test: 'stock 3',
-  // 		num: 17,
-  // 		isFav: false
-  // 	},
-  // 	{
-  // 		id: 4,
-  // 		test: 'stock 4',
-  // 		num: 1.47,
-  // 		isFav: false
-  // 	},
-  // 	{
-  // 		id: 5,
-  // 		test: 'stock 5',
-  // 		num: 6,
-  // 		isFav: false
-  // 	}
-  // ]
   array = [];
 }

@@ -11,9 +11,13 @@
 
   <div class="row">
   	<div class="col-md-2 select-box text-center">
-  		<div (click)="clickAll()">All Stocks</div>
-  		<div (click)="clickFav()">Favorite Stocks</div>
-  		<a class="btn btn-primary align-bottom" (click)="logout()">Logout</a>
+
+  		<div *ngIf="showAll" class="active" (click)="clickAll()">All Stocks</div>
+  		<div *ngIf="!showAll" (click)="clickAll()">All Stocks</div>
+
+  		<div *ngIf="showFavorites" class="active" (click)="clickFav()">Favorite Stocks</div>
+  		<div *ngIf="!showFavorites" (click)="clickFav()">Favorite Stocks</div>
+  		<a class="btn btn-primary" id="logout" (click)="logout()">Logout</a>
   	</div>
     <div class="col-md-10 stock-box">
       	<div class="col-md-12 search-box text-center">
@@ -22,10 +26,39 @@
         <div class="stocks-container">
         	
         	<ul *ngIf="showAll">
-        		<li *ngFor="let obj of array | filter : searchText"><button value={{obj.identifier}} (click)="addToFavorites($event.target.value)" class="btn btn-success">Favorite</button> {{obj.identifier}}   {{obj.name}}  |   {{obj.value}}   |   Favorite: {{obj.isFav}}</li>
+        		<li *ngFor="let obj of array | filter : searchText">
+        			<div class="stock-item text-center">
+        				<button *ngIf=obj.isFav value={{obj.identifier}} (click)="deleteFavorite($event.target.value)" class="btn btn-primary" id="btn-fav">Unfavorite</button>
+        			
+        				<button *ngIf=!obj.isFav value={{obj.identifier}} (click)="addToFavorites($event.target.value)" class="btn btn-success btn-fav" id="btn-fav">Favorite</button>
+        				<div>
+        					{{obj.identifier}}
+        				</div>   
+        				<div>
+        					{{obj.name}}
+        				</div>
+        				<div>
+        					{{obj.value}} 
+        				</div>    
+        			</div>
+        		</li>
         	</ul>
         	<ul *ngIf="showFavorites">
-        		<li *ngFor="let obj of favorites | filter : searchText"><button value={{obj.identifier}} (click)="deleteFavorite($event.target.value)" class="btn btn-success">Delete</button>     {{obj.identifier}}   {{obj.name}}  |   {{obj.value}}</li>
+	        	
+	    		<li *ngFor="let obj of favorites | filter : searchText">
+	    			<div class="stock-item text-center">
+	    				<button value={{obj.identifier}} (click)="deleteFavorite($event.target.value)" class="btn btn-success" id="btn-fav">Delete</button>     
+						<div>
+	    					{{obj.identifier}}
+	    				</div>   
+	    				<div>
+	    					{{obj.name}}
+	    				</div>
+	    				<div>
+	    					{{obj.value}} 
+	    				</div> 
+		        	</div>
+		        </li>
         	</ul>
         </div>
 	</div>

@@ -1,7 +1,31 @@
 /* You can add global styles to this file, and also import other style files */
+@font-face {
+	font-family: 'gotham-heavy';
+	src: url('./app/fonts/Gotham-Font/GothamMedium.ttf');
+}
+
+@font-face {
+	font-family: 'gotham-light';
+	src: url('./app/fonts/Gotham-Font/GothamLight.ttf');
+}
+
 body{
 	background-color: rgba(45,45,45,.7);
 	color: white;
+	font-family: 'gotham-light';
+}
+
+#login-container {
+	height: 100%;
+    padding-top: 175px;
+}
+
+#login-container a {
+	margin: 10px;
+}
+
+li {
+	list-style-type: none;
 }
 
 .stock-box {
@@ -17,12 +41,13 @@ body{
 	padding-top: 30px;
 	padding-left: 0px !important;
 	padding-right: 0px !important;
+	font-family: 'gotham-heavy';
 }
 
 .select-box div {
 	height: 30px;
 	width: 100%;
-
+	line-height: 28px;
 }
 
 .select-box div:hover {
@@ -36,13 +61,45 @@ body{
 	margin: 0px !important;
 }
 
-.stocks-container  {
-	max-height: 460px;
-	overflow-y: scroll;
+.search-box input {
+	height: 23px;
 }
 
+.stocks-container  {
+	height: 476px;
+	overflow-y: auto;
+}
 
+.stocks-container ul {
+	padding-left: 0px;
+}
+
+.stock-item {
+	border: 1px black solid;
+	width: 100%;
+	display: inline-flex;
+}
+
+.stock-item div {
+	width: 250px;
+	line-height: 35px;
+}
+
+#logout {
+	right: 0;
+	bottom: 0;
+	left: 0;
+	position: absolute;
+}
 
 .btn {
 	border-radius: 0px !important;
+}
+
+#btn-fav {
+	width: 100px !important;
+}
+
+.active {
+	background-color: rgba(70,70,70,1);
 }
