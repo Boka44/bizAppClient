@@ -4,6 +4,8 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'filter'
 })
 
+// used pipe for the search filter in dashboard component
+
 export class FilterPipe implements PipeTransform {
   transform(items: any[], searchText: string): any[] {
     if(!items) {

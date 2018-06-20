@@ -29,7 +29,8 @@ export function getAuthServiceConfigs() {
   return config;
 }
 
-
+// used JWT Module to add the current JWT token to header for each request,
+// which the server uses the authenticate each endpoint.
 
 @NgModule({
   declarations: [

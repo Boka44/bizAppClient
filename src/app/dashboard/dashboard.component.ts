@@ -14,6 +14,11 @@ export class DashboardComponent implements OnInit {
 
   constructor(private userService: UserService, private router: Router, private route: ActivatedRoute) { }
 
+  // Retrieves user info from server after authentication, then updates stock array and favorites
+  // array. Also updates favorites with current pricing info not reflected in database.
+  // calling favorites first does cause a short delay when page is loaded, but is needed to reflect 
+  // which button is active for each stock. 
+
   ngOnInit() {
   	this.userService.getCurrentUser().then(profile => this.currentUser = profile)
   		.catch(() => this.currentUser = {});
@@ -42,6 +47,9 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
+  // checks if selected stock is currently a favorite, otherwise adds to favorites and updates
+  // database.
+
   addToFavorites(e: string) {
   	console.log(e)
   	let match = this.array.find((i) => {
@@ -64,6 +72,8 @@ export class DashboardComponent implements OnInit {
   	this.userService.updateUser(this.favorites);
   }
 
+  // deletes selected stock from favorites and updates database
+
   deleteFavorite(e: number) {
   	let index = this.favorites.findIndex((i) => {
   		return i.identifier == e;
@@ -72,6 +82,8 @@ export class DashboardComponent implements OnInit {
   	this.checkFav();
   	this.userService.updateUser(this.favorites);
   }
+
+  // toggles active dashboard from Show All and Show Favorites
 
   clickFav() {
   	this.showFavorites = true;
@@ -83,8 +95,10 @@ export class DashboardComponent implements OnInit {
   	this.showAll = true;
   }
 
+  // check used to update the stock array with the current favorites array so that 
+  // the appropriate button, addToFavorites() or deleteFavorite(), is displayed per stock.
+
   checkFav() {
-  	
   	console.log("checkFav()")
   	this.array.forEach((j) => {
   		let isFavorite = this.favorites.some((i) => {
@@ -97,6 +111,8 @@ export class DashboardComponent implements OnInit {
   		}
   	})
   }
+
+  // updates favorite price with current price not refelcted in previous database storage.
 
   updateFavoritesPrice() {
   	this.favorites.forEach((i) => {

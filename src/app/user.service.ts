@@ -18,8 +18,13 @@ export class UserService {
   	});
   }
 
+  // arrays defined and updated before sending to dashboard component.
+
   favoritesArray = [];
   stocksArray = [];
+
+  // facebook and google login methods. Send data to server and stores the JWT token sent back
+  // in local storage.
 
   fbLogin() {    
    	return new Promise((resolve, reject) => {
@@ -73,11 +78,15 @@ export class UserService {
     console.log(localStorage);
   }
 
+  // checks if user is logged in. Used in guards to allow access to dashboard component.
+
   isLoggedIn() {
     return new Promise((resolve, reject) => {
       this.getCurrentUser().then(user => resolve(true)).catch(() => reject(false));
     });
   }
+
+  // gets current user info from server to authenticate endpoints.
 
   getCurrentUser() {
     return new Promise((resolve, reject) => {
@@ -87,6 +96,8 @@ export class UserService {
     });
   }
 
+  // updates user favorites to server
+
   updateUser(array) {
   	return this.http.post(`http://localhost:3000/update`, {"favorites": array})
   		.subscribe((response) => {
@@ -94,6 +105,8 @@ export class UserService {
   			this.favoritesArray = array;
   		})
   }
+
+  // gets current users favorites from server
 
   getUser() {
   	return new Promise((resolve, reject) => {
@@ -105,9 +118,13 @@ export class UserService {
 	  })
   }
 
+  // used to update favorites
+
   updateFavorites() {
   	return this.favoritesArray;
   }
+
+  // used to get current stock info from server API.
 
   getStocks() {
   	return new Promise((resolve, reject) => {

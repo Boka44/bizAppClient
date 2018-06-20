@@ -16,18 +16,10 @@ export class LoginComponent implements OnInit {
 
   constructor(private socialAuthService: AuthService, private userService: UserService, private router: Router, private route: ActivatedRoute) { }
 
-
-
   ngOnInit() {
   }
-
-  onSignIn(googleUser) {
-	  var profile = googleUser.getBasicProfile();
-	  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-	  console.log('Name: ' + profile.getName());
-	  console.log('Image URL: ' + profile.getImageUrl());
-	  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-	}
+  
+  // sign in for google and facebook login options.
 
   public socialSignIn(socialPlatform : string) {
     let socialPlatformProvider;
