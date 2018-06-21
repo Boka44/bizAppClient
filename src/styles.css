@@ -38,16 +38,16 @@ li {
 .select-box {
 	background-color: rgba(45,45,45,1);
 	height: 500px;
-	padding-top: 30px;
+	padding-top: 25px;
 	padding-left: 0px !important;
 	padding-right: 0px !important;
 	font-family: 'gotham-heavy';
 }
 
 .select-box div {
-	height: 30px;
+	height: 39px;
 	width: 100%;
-	line-height: 28px;
+	line-height: 37px;
 }
 
 .select-box div:hover {
